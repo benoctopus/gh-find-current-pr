@@ -23,6 +23,15 @@ outputs:
     description: The PR's title if the PR was found
   body:
     description: The PR's body if the PR was found
+  head:
+    description: The PR's head ref if the PR was found
+  head-sha:
+    description: The PR's head SHA if the PR was found
+  base:
+    description: The PR's base ref if the PR was found
+  base-sha:
+    description: The PR's base SHA if the PR was found
+
 runs:
   using: node20
   main: 'dist/index.js'

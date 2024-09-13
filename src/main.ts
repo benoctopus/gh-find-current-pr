@@ -24,15 +24,30 @@ async function main() {
             return context.payload.ref === `refs/heads/${el.head.ref}`;
         }) || prs[0];
 
+    core.info(`Setting output: head: ${pr?.head?.ref || ''}`);
+    core.setOutput('head', pr?.head?.ref || '');
+
+    core.info(`Setting output: base: ${pr?.base?.ref || ''}`);
+    core.setOutput('base', pr?.base?.ref || '');
+
+    core.info(`Setting output: headSha: ${pr?.head?.sha || ''}`);
+    core.setOutput('head-sha', pr?.head?.sha || '');
+
+    core.info(`Setting output: baseSha: ${pr?.base?.sha || ''}`);
+    core.setOutput('base-sha', pr?.base?.sha || '');
+
     core.info(`Setting output: draft: ${(pr && pr.draft) || ''}`);
     core.setOutput('draft', (pr && pr.draft) || '');
+
     core.info(`Setting output: pr: ${(pr && pr.number) || ''}`);
     core.setOutput('pr', (pr && pr.number) || '');
+
     core.info(`Setting output: number: ${(pr && pr.number) || ''}`);
     core.setOutput('number', (pr && pr.number) || '');
+
     core.info(`Setting output: title: ${(pr && pr.title) || ''}`);
+
     core.setOutput('title', (pr && pr.title) || '');
-    core.setOutput('body', (pr && pr.body) || '');
 }
 
 main().catch((err) => core.setFailed(err.message));

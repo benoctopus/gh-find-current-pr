@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 function main() {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     return __awaiter(this, void 0, void 0, function* () {
         const token = core.getInput('github-token', { required: false }) || process.env.GITHUB_TOKEN;
         const state = (core.getInput('state', { required: false }) || 'open').toLowerCase();
@@ -60,6 +61,14 @@ function main() {
         const pr = prs.find((el) => {
             return context.payload.ref === `refs/heads/${el.head.ref}`;
         }) || prs[0];
+        core.info(`Setting output: head: ${((_a = pr === null || pr === void 0 ? void 0 : pr.head) === null || _a === void 0 ? void 0 : _a.ref) || ''}`);
+        core.setOutput('head', ((_b = pr === null || pr === void 0 ? void 0 : pr.head) === null || _b === void 0 ? void 0 : _b.ref) || '');
+        core.info(`Setting output: base: ${((_c = pr === null || pr === void 0 ? void 0 : pr.base) === null || _c === void 0 ? void 0 : _c.ref) || ''}`);
+        core.setOutput('base', ((_d = pr === null || pr === void 0 ? void 0 : pr.base) === null || _d === void 0 ? void 0 : _d.ref) || '');
+        core.info(`Setting output: headSha: ${((_e = pr === null || pr === void 0 ? void 0 : pr.head) === null || _e === void 0 ? void 0 : _e.sha) || ''}`);
+        core.setOutput('head-sha', ((_f = pr === null || pr === void 0 ? void 0 : pr.head) === null || _f === void 0 ? void 0 : _f.sha) || '');
+        core.info(`Setting output: baseSha: ${((_g = pr === null || pr === void 0 ? void 0 : pr.base) === null || _g === void 0 ? void 0 : _g.sha) || ''}`);
+        core.setOutput('base-sha', ((_h = pr === null || pr === void 0 ? void 0 : pr.base) === null || _h === void 0 ? void 0 : _h.sha) || '');
         core.info(`Setting output: draft: ${(pr && pr.draft) || ''}`);
         core.setOutput('draft', (pr && pr.draft) || '');
         core.info(`Setting output: pr: ${(pr && pr.number) || ''}`);
@@ -68,7 +77,6 @@ function main() {
         core.setOutput('number', (pr && pr.number) || '');
         core.info(`Setting output: title: ${(pr && pr.title) || ''}`);
         core.setOutput('title', (pr && pr.title) || '');
-        core.setOutput('body', (pr && pr.body) || '');
     });
 }
 main().catch((err) => core.setFailed(err.message));
