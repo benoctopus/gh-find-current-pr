@@ -18,11 +18,18 @@ async function main() {
         commit_sha: sha,
     });
 
-    const prs = result.data.filter((el) => state === 'all' || el.state === state);
-    const pr =
-        prs.find((el) => {
-            return context.payload.ref === `refs/heads/${el.head.ref}`;
-        }) || prs[0];
+    console.warn(result);
+
+    const prs = result.data.filter((el) => el.state === state);
+    const pr = prs.find((el) => {
+        return context.payload.ref === `refs/heads/${el.head.ref}`;
+    });
+
+    console.warn(pr);
+
+    if (!pr) {
+        throw new Error('No PR found');
+    }
 
     core.info(`Setting output: head: ${pr?.head?.ref || ''}`);
     core.setOutput('head', pr?.head?.ref || '');
@@ -33,8 +40,8 @@ async function main() {
     core.info(`Setting output: headSha: ${pr?.head?.sha || ''}`);
     core.setOutput('head-sha', pr?.head?.sha || '');
 
-    core.info(`Setting output: baseSha: ${pr?.base?.sha || ''}`);
-    core.setOutput('base-sha', pr?.base?.sha || '');
+    core.info(`Setting output: headSha: ${pr?.head?.sha || ''}`);
+    core.setOutput('head-sha', pr?.head?.sha || '');
 
     core.info(`Setting output: draft: ${(pr && pr.draft) || ''}`);
     core.setOutput('draft', (pr && pr.draft) || '');
